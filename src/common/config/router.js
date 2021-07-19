@@ -3,23 +3,44 @@ let routes=[
     path:'/',
     name:'layout',
     redirect:{name:'index'},
-    component:()=>import('../../views/layout.vue'),
+    // component:()=>import('../../views/layout.vue'),
+    component:'layout',
     children:[
       {
         path:'/index',
         name:'index',
-        component:()=>import('../../views/index/index.vue')
+        // component:()=>import('../../views/index/index.vue')
+        component:'index/index'
       }
     ]
   },
   {
     path:'/login',
     name:'login',
-    component:()=>import('../../views/login/index.vue')
+    // component:()=>import('../../views/login/index.vue')
+    component:'login/index'
   },
   {
     path:'*',
     redirect:{name:'index'}
   }
 ]
-export default routes
+//获取路由信息方法
+let getRoute=function(){
+  //自动获取路由
+  createRoute(routes)
+  return routes
+}
+//自动生成路由
+function createRoute(arr){
+  for(let i = 0;i < arr.length; i++){
+    if(!arr[i].component) return
+    //自动生成componentFun
+    let componentFun = import(`../../views/${arr[i].component}.vue`)
+    arr[i].component = () => componentFun
+    if(arr[i].children && arr[i].children.length > 0){
+      createRoute(arr[i].children)
+    }
+  }
+}
+export default getRoute()

@@ -10,7 +10,7 @@
 							</h3>
 						</div>
 						<div class="card-body">
-							<el-form ref="form" :rules="rules" :model="form">
+							<el-form ref="ruleForm" :rules="rules" :model="form">
 								<el-form-item prop="username">
 									<el-input v-model="form.username"
 									size="medium"
@@ -25,7 +25,7 @@
 								</el-form-item>
 								<el-form-item>
 									<el-button type="primary" size="medium"
-									class="w-100">
+									class="w-100" @click="submit">
 										立即登录
 									</el-button>
 								</el-form-item>
@@ -58,6 +58,15 @@
         }
 			}
 		},
+    methods:{
+      submit(){
+        this.$refs.ruleForm.validate((e)=>{
+          if(!e) return
+          //提交表单
+          this.$router.push({name:'index'})
+        })
+      }
+    }
 	}
 </script>
 

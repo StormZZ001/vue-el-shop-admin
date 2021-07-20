@@ -10,14 +10,14 @@
 							</h3>
 						</div>
 						<div class="card-body">
-							<el-form ref="form" :model="form">
-								<el-form-item>
+							<el-form ref="form" :rules="rules" :model="form">
+								<el-form-item prop="username">
 									<el-input v-model="form.username"
 									size="medium"
 									placeholder="请输入用户名">
 									</el-input>
 								</el-form-item>
-								<el-form-item>
+								<el-form-item prop="password">
 									<el-input v-model="form.password"
 									size="medium" type="password"
 									placeholder="请输入密码">
@@ -47,7 +47,15 @@
 				form:{
 					username:"",
 					password:""
-				}
+				},
+        rules:{
+          username:[
+            {required:true,message:'请输入用户名',trigger:'blur'}
+          ],
+          password:[
+            {required:true,message:'请输入密码',trigger:'blur'}
+          ]
+        }
 			}
 		},
 	}

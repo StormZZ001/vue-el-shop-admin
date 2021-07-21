@@ -11,7 +11,7 @@
       "
     >
       <el-header class="d-flex align-items-center" style="background: #545c64">
-        <a class="h5 text-light mb-0 mr-auto">UNI-ADMIN</a>
+        <a class="h5 text-light mb-0 mr-auto">{{$conf.logo}}</a>
         <el-menu
           :default-active="navBar.active"
           mode="horizontal"
@@ -54,7 +54,6 @@
         </el-main>
       </el-container>
     </el-container>
-
     <!-- <router-view></router-view> -->
   </div>
 </template>
@@ -65,39 +64,12 @@ export default {
   mixins:[Common],
   data() {
     return {
-      navBar: {
-        active: "0",
-        list: [
-          {
-            name: "首页",
-            subActive:'0',
-            subMenu:[
-              {
-                icon:'el-icon-s-home',
-                name:'后台首页'
-              },
-              {
-                icon:'el-icon-s-claim',
-                name:'商品列表'
-              }
-            ]
-          },
-          {
-            name: "商品",
-            subActive:'0',
-            subMenu:[
-              {
-                icon:'el-icon-s-claim',
-                name:'商品列表'
-              }
-            ]
-          },
-          { name: "订单" },
-          { name: "会员" },
-          { name: "设置" },
-        ],
-      },
+      navBar:[]
     };
+  },
+  created(){
+    //初始化菜单
+    this.navBar = this.$conf.navBar
   },
   computed:{
     slideMenuActive:{

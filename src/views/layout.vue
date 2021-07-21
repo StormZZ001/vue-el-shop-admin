@@ -39,20 +39,12 @@
       <el-container style="height: 100%; padding-bottom: 60px">
         <!-- 侧边布局 -->
         <el-aside width="200px">
-          <el-menu default-active="2" @click="slideSelect">
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>导航一</span>
-              </template>
-            </el-submenu>
-            <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="3">
-              <i class="el-icon-document"></i>
-              <span slot="title">导航三</span>
+          <el-menu default-active="0" @click="slideSelect">
+            <el-menu-item :index="index | numToString"
+              v-for="(item,index) in slideMenus"
+              :key="index">
+             <i :class="item.icon"></i>
+             <span slot="title">{{item.name}}</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
@@ -76,14 +68,49 @@ export default {
       navBar: {
         active: "0",
         list: [
-          { name: "首页" },
-          { name: "商品" },
+          {
+            name: "首页",
+            subActive:'0',
+            subMenu:[
+              {
+                icon:'el-icon-s-home',
+                name:'后台首页'
+              },
+              {
+                icon:'el-icon-s-claim',
+                name:'商品列表'
+              }
+            ]
+          },
+          {
+            name: "商品",
+            subActive:'0',
+            subMenu:[
+              {
+                icon:'el-icon-s-claim',
+                name:'商品列表'
+              }
+            ]
+          },
           { name: "订单" },
           { name: "会员" },
           { name: "设置" },
         ],
       },
     };
+  },
+  computed:{
+    slideMenuActive:{
+      get(){
+        return this.navBar.list[this.navBar.active].subActive || '0'
+      },
+      set(val){
+        return this.navBar.list[this.navBar.active].subActive = val
+      }
+    },
+    slideMenus(){
+      return this.navBar.list[this.navBar.active].subMenu || []
+    }
   },
   // filters:{
   //   numToString(value){
@@ -92,10 +119,12 @@ export default {
   // },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      this.navBar.active = key
     },
     slideSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
+      // this.navBar.list[this.navBar.active].subActive = key
+      this.slideMenuActive = key
     },
   },
 };

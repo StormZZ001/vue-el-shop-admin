@@ -36,10 +36,10 @@
           </el-submenu>
         </el-menu>
       </el-header>
-      <el-container style="height: 100%; padding-bottom: 60px">
+      <el-container style="height: 100%;">
         <!-- 侧边布局 -->
         <el-aside width="200px">
-          <el-menu default-active="0" @click="slideSelect">
+          <el-menu default-active="0" @click="slideSelect" style="height:100%">
             <el-menu-item :index="index | numToString"
               v-for="(item,index) in slideMenus"
               :key="index">
@@ -49,8 +49,17 @@
           </el-menu>
         </el-aside>
         <!-- 主布局 -->
-        <el-main>
-          <li v-for="i in 100" :key="i">{{ i }}</li>
+        <el-main >
+          <!-- 面包屑导航 -->
+          <div class="border-bottom mb-3"
+               style="padding: 20px;margin: -20px;">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+             <el-breadcrumb-item
+               v-for="(item,index) in bran"
+               :key="index"
+               :to="item.path">{{item.title}}</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -64,12 +73,15 @@ export default {
   mixins:[Common],
   data() {
     return {
-      navBar:[]
+      navBar:[],
+      bran:[]
     };
   },
   created(){
     //初始化菜单
     this.navBar = this.$conf.navBar
+    //获取面包屑导航
+    this.getRouterBran()
   },
   computed:{
     slideMenuActive:{
@@ -90,6 +102,31 @@ export default {
   //   }
   // },
   methods: {
+    //获取面包屑导航
+    getRouterBran(){
+      // console.log(this.$route.matched)
+      let b = this.$route.matched.filter(v => v.name)
+      let arr = []
+      b.forEach((v,k)=>{
+        //过滤掉layout和index
+        if(v.name === 'layout' || v.name === 'index') return
+        arr.push({
+          name:v.name,
+          path:v.path,
+          title:v.meta.title
+        })
+      })
+      // console.log(arr)
+      if(arr.length > 0){
+        arr.unshift({
+          name : 'index',
+          path : '/index',
+          title: '后台首页'
+        })
+      }
+      // console.log(arr)
+      this.bran = arr
+    },
     handleSelect(key, keyPath) {
       this.navBar.active = key
     },

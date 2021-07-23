@@ -46,7 +46,7 @@
         <!-- 侧边布局 -->
         <el-aside width="200px">
           <el-menu
-            default-active="0"
+            :default-active="slideMenuActive"
             @select="slideSelect"
             style="height: 100%"
           >

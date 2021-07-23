@@ -24,6 +24,12 @@ let routes=[
 				// path:'/shop/goods/list',
         meta:{title:'商品列表'},
 				component:'shop/goods/list'
+			},
+      {
+				// name:'shop_goods_list'
+				// path:'/shop/goods/list',
+        meta:{title:'相册管理'},
+				component:'image/index'
 			}
     ]
   },

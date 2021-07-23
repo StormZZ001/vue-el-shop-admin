@@ -61,7 +61,7 @@
           </el-menu>
         </el-aside>
         <!-- 主布局 -->
-        <el-main class="bg-light" style="padding-bottom:60px">
+        <el-main class="bg-light" style="padding-bottom:60px;position:relative">
           <!-- 面包屑导航 -->
           <div
             class="border-bottom mb-3"

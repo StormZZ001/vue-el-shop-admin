@@ -20,86 +20,37 @@
 				</el-card>
 			</el-col>
 		</el-row>
-    <!-- 店铺、订单提示 | 统计图 -->
+
+		<!-- 店铺、订单提示 | 统计图 -->
 		<el-row :gutter="20" class="mt-3">
 			<!-- 店铺、订单提示 -->
-			<el-col :span="12" class="d-flex flex-column" style="height: 370px;">
-				<el-card class="box-card mb-auto" shadow="never">
+			<el-col :span="12" class="d-flex flex-column"
+			style="height: 370px;justify-content: space-between;">
+
+				<el-card class="box-card" shadow="never"
+				v-for="(tip,ti) in tips" :key="ti">
 					<div slot="header" class="clearfix">
-						<span>店铺及商品提示</span>
-						<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+						<span>{{tip.title}}</span>
+						<el-button style="float: right; padding: 3px 0"
+						type="text">{{tip.desc}}</el-button>
 					</div>
 					<div class="row">
-						<div class="col-3">
+						<div :class="tip.list.length|getCol"
+						v-for="(tlist,listi) in tip.list"
+						:key="listi">
 							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
+								<h4 class="mb-1">{{tlist.value}}</h4>
+								<small class="text-muted">
+								{{tlist.name}}</small>
 							</button>
 						</div>
-						<div class="col-3">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-3">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-3">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
+
 					</div>
 				</el-card>
-				<el-card class="box-card" shadow="never">
-					<div slot="header" class="clearfix">
-						<span>交易提示</span>
-						<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-					</div>
-					<div class="row">
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-						<div class="col-2">
-							<button class="btn btn-light w-100">
-								<h4 class="mb-1">64</h4>
-								<small class="text-muted">出售中</small>
-							</button>
-						</div>
-					</div>
-				</el-card>
+
+
+
+
 			</el-col>
 			<!-- 统计图 -->
 			<el-col :span="12">
@@ -114,6 +65,9 @@
 			</el-col>
 		</el-row>
 
+
+
+
 	</div>
 </template>
 
@@ -126,9 +80,38 @@
 					{ icon:"el-icon-s-finance",desc:"订单总数(笔)",num:"120",color:"bg-success" },
 					{ icon:"el-icon-s-order",desc:"今日订单总金额(元)",num:"4183.80" ,color:"bg-danger"},
 					{ icon:"el-icon-s-data",desc:"本月销量(笔)",num:"100",color:"bg-warning" },
+				],
+				tips:[
+					{
+						title:"店铺及商品提示",
+						desc:"需要关注的店铺信息及待处理事项",
+						list:[
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+						]
+					},
+					{
+						title:"店铺及商品提示",
+						desc:"需要关注的店铺信息及待处理事项",
+						list:[
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+							{ name:"出售中",value:"64" },
+						]
+					},
 				]
 			}
 		},
+		filters: {
+			getCol(total) {
+				return `col-${12/total}`;
+			}
+		}
 	}
 </script>
 

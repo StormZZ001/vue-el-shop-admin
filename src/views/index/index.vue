@@ -20,7 +20,99 @@
 				</el-card>
 			</el-col>
 		</el-row>
-
+    <!-- 店铺、订单提示 | 统计图 -->
+		<el-row :gutter="20" class="mt-3">
+			<!-- 店铺、订单提示 -->
+			<el-col :span="12" class="d-flex flex-column" style="height: 370px;">
+				<el-card class="box-card mb-auto" shadow="never">
+					<div slot="header" class="clearfix">
+						<span>店铺及商品提示</span>
+						<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+					</div>
+					<div class="row">
+						<div class="col-3">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-3">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-3">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-3">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+					</div>
+				</el-card>
+				<el-card class="box-card" shadow="never">
+					<div slot="header" class="clearfix">
+						<span>交易提示</span>
+						<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-light w-100">
+								<h4 class="mb-1">64</h4>
+								<small class="text-muted">出售中</small>
+							</button>
+						</div>
+					</div>
+				</el-card>
+			</el-col>
+			<!-- 统计图 -->
+			<el-col :span="12">
+				<el-card class="box-card" style="height: 370px;"
+				shadow="never">
+					<div slot="header" class="clearfix">
+						<span>卡片名称</span>
+						<el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+					</div>
+					<div class="text item"></div>
+				</el-card>
+			</el-col>
+		</el-row>
 
 	</div>
 </template>

@@ -11,7 +11,9 @@
       "
     >
       <el-header class="d-flex align-items-center" style="background: #545c64">
-        <a class="h5 text-light mb-0 mr-auto">{{$conf.logo}}</a>
+        <a class="h5 text-light mb-0 mr-auto">
+          {{ $conf.logo }}
+        </a>
         <el-menu
           :default-active="navBar.active"
           mode="horizontal"
@@ -20,9 +22,13 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-menu-item :index="index | numToString"
-            v-for="(item,index) in navBar.list"
-            :key="index">{{item.name}}</el-menu-item>
+          <el-menu-item
+            :index="index | numToString"
+            v-for="(item, index) in navBar.list"
+            :key="index"
+            >{{ item.name }}</el-menu-item
+          >
+
           <el-submenu index="100">
             <template slot="title">
               <el-avatar
@@ -36,107 +42,142 @@
           </el-submenu>
         </el-menu>
       </el-header>
-      <el-container style="height: 100%;">
+      <el-container style="height: 100%">
         <!-- 侧边布局 -->
         <el-aside width="200px">
-          <el-menu default-active="0" @click="slideSelect" style="height:100%">
-            <el-menu-item :index="index | numToString"
-              v-for="(item,index) in slideMenus"
-              :key="index">
-             <i :class="item.icon"></i>
-             <span slot="title">{{item.name}}</span>
+          <el-menu
+            default-active="0"
+            @select="slideSelect"
+            style="height: 100%"
+          >
+            <el-menu-item
+              :index="index | numToString"
+              :key="index"
+              v-for="(item, index) in slideMenus"
+            >
+              <i :class="item.icon"></i>
+              <span slot="title">{{ item.name }}</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
         <!-- 主布局 -->
-        <el-main >
+        <el-main>
           <!-- 面包屑导航 -->
-          <div class="border-bottom mb-3"
-               style="padding: 20px;margin: -20px;">
+          <div
+            class="border-bottom mb-3"
+            v-if="bran.length > 0"
+            style="padding: 20px; margin: -20px"
+          >
             <el-breadcrumb separator-class="el-icon-arrow-right">
-             <el-breadcrumb-item
-               v-for="(item,index) in bran"
-               :key="index"
-               :to="item.path">{{item.title}}</el-breadcrumb-item>
+              <el-breadcrumb-item
+                v-for="(item, index) in bran"
+                :key="index"
+                :to="{ path: item.path }"
+              >
+                {{ item.title }}</el-breadcrumb-item
+              >
             </el-breadcrumb>
           </div>
+
+          <!-- 主内容 -->
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
-    <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import Common from '../common/mixins/common'
+import common from "@/common/mixins/common.js";
 export default {
-  mixins:[Common],
+  mixins: [common],
   data() {
     return {
-      navBar:[],
-      bran:[]
+      navBar: [],
+      bran: [],
     };
   },
-  created(){
-    //初始化菜单
-    this.navBar = this.$conf.navBar
-    //获取面包屑导航
-    this.getRouterBran()
+  created() {
+    // 初始化菜单
+    this.navBar = this.$conf.navBar;
+    // 获取面包屑导航
+    this.getRouterBran();
+    // 初始化选中菜单
+    this.__initNavBar();
   },
-  computed:{
-    slideMenuActive:{
-      get(){
-        return this.navBar.list[this.navBar.active].subActive || '0'
+  watch: {
+    $route(to, from) {
+      // 本地存储
+      localStorage.setItem(
+        "navActive",
+        JSON.stringify({
+          top: this.navBar.active || "0",
+          left: this.slideMenuActive || "0",
+        })
+      );
+      this.getRouterBran();
+    },
+  },
+  computed: {
+    slideMenuActive: {
+      get() {
+        return this.navBar.list[this.navBar.active].subActive || "0";
       },
-      set(val){
-        return this.navBar.list[this.navBar.active].subActive = val
+      set(val) {
+        this.navBar.list[this.navBar.active].subActive = val;
+      },
+    },
+    slideMenus() {
+      return this.navBar.list[this.navBar.active].submenu || [];
+    },
+  },
+  methods: {
+    __initNavBar() {
+      let r = localStorage.getItem("navActive");
+      if (r) {
+        r = JSON.parse(r);
+        this.navBar.active = r.top;
+        this.slideMenuActive = r.left;
       }
     },
-    slideMenus(){
-      return this.navBar.list[this.navBar.active].subMenu || []
-    }
-  },
-  // filters:{
-  //   numToString(value){
-  //     return value.toString()
-  //   }
-  // },
-  methods: {
-    //获取面包屑导航
-    getRouterBran(){
-      // console.log(this.$route.matched)
-      let b = this.$route.matched.filter(v => v.name)
-      let arr = []
-      b.forEach((v,k)=>{
-        //过滤掉layout和index
-        if(v.name === 'layout' || v.name === 'index') return
+    // 获取面包屑导航
+    getRouterBran() {
+      let b = this.$route.matched.filter((v) => v.name);
+      let arr = [];
+      b.forEach((v, k) => {
+        // 过滤layout和index
+        if (v.name === "index" || v.name === "layout") return;
         arr.push({
-          name:v.name,
-          path:v.path,
-          title:v.meta.title
-        })
-      })
-      // console.log(arr)
-      if(arr.length > 0){
-        arr.unshift({
-          name : 'index',
-          path : '/index',
-          title: '后台首页'
-        })
+          name: v.name,
+          path: v.path,
+          title: v.meta.title,
+        });
+      });
+      if (arr.length > 0) {
+        arr.unshift({ name: "index", path: "/index", title: "后台首页" });
       }
-      // console.log(arr)
-      this.bran = arr
+      this.bran = arr;
     },
     handleSelect(key, keyPath) {
-      this.navBar.active = key
+      this.navBar.active = key;
+      // 默认选中跳转到当前激活
+      this.slideMenuActive = "0";
+      if (this.slideMenus.length > 0) {
+        this.$router.push({
+          name: this.slideMenus[this.slideMenuActive].pathname,
+        });
+      }
     },
     slideSelect(key, keyPath) {
-      // console.log(key, keyPath);
-      // this.navBar.list[this.navBar.active].subActive = key
-      this.slideMenuActive = key
+      this.slideMenuActive = key;
+      // 跳转到指定页面
+      this.$router.push({
+        name: this.slideMenus[key].pathname,
+      });
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+</style>

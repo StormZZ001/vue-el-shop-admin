@@ -67,6 +67,69 @@
 				</el-card>
 			</el-col>
 		</el-row>
+    <!-- 销售情况统计 | 单品销售排名 -->
+    <el-row :gutter="20" class="my-3">
+      <el-col :span="12">
+        <el-card shadow="never" :body-style="{ padding: '20px' }">
+          <div slot="header" class="clearfix">
+						<span>销售情况统计</span>
+						<el-button style="float: right; padding: 3px 0" type="text">按周期统计商家店铺的订单量和订单金额</el-button>
+					</div>
+          <!-- card body -->
+          <div class="media align-items-center border">
+             <span class="py-4 px-3 bg-light border-right">昨日销量</span>
+						  <div class="media-body">
+						  	<div class="border-bottom pl-3 pb-1 mb-1">
+						  	<span>订单金额(元)  </span> 12</div>
+						  	<div class="pl-3">
+						  	<span>订单量(件) </span> 12</div>
+						  </div>
+          </div>
+          <div class="media align-items-center border mt-3">
+						<span class="py-4 px-3 bg-light border-right">
+							本月销量</span>
+						<div class="media-body">
+							<div class="border-bottom pl-3 pb-1 mb-1">
+							<span>订单金额(元) </span> 12</div>
+							<div class="pl-3">
+							<span>订单量(件) </span> 12</div>
+						</div>
+					</div>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card shadow="never" :body-style="{ padding: '20px' }">
+          <div slot="header" class="clearfix">
+						<span>单品销售排名</span>
+            <el-button style="float: right; padding: 3px 0" type="text">按周期统计商家店铺的订单量和订单金额</el-button>
+          </div>
+          <!-- card body -->
+          <el-table
+					:data="tableData"
+					height="200"
+					border
+					style="width: 100%">
+					<el-table-column
+					  type="index"
+					  label="#"
+					  width="50">
+					</el-table-column>
+
+					<el-table-column
+					  prop="name"
+					  label="商品信息">
+					</el-table-column>
+
+					<el-table-column
+					  prop="num"
+					  label="销量"
+					  width="50">
+					</el-table-column>
+
+				  </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
 	</div>
 </template>
 
@@ -75,6 +138,28 @@ let echarts = require('echarts')
 	export default {
 		data() {
 			return {
+        tableData: [
+					{
+						name:"小天鹅（LittleSwan）滚筒洗衣机...",
+						num:"9"
+					},
+					{
+						name:"小天鹅（LittleSwan）滚筒洗衣机...",
+						num:"9"
+					},
+					{
+						name:"小天鹅（LittleSwan）滚筒洗衣机...",
+						num:"9"
+					},
+					{
+						name:"小天鹅（LittleSwan）滚筒洗衣机...",
+						num:"9"
+					},
+					{
+						name:"小天鹅（LittleSwan）滚筒洗衣机...",
+						num:"9"
+					}
+				],
 				counts: [
 					{ icon:"el-icon-user-solid",desc:"关注人数(个)",num:"30",color:"bg-primary" },
 					{ icon:"el-icon-s-finance",desc:"订单总数(笔)",num:"120",color:"bg-success" },

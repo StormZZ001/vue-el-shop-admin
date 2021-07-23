@@ -61,21 +61,18 @@
           </el-menu>
         </el-aside>
         <!-- 主布局 -->
-        <el-main>
+        <el-main class="bg-light" style="padding-bottom:60px">
           <!-- 面包屑导航 -->
           <div
             class="border-bottom mb-3"
             v-if="bran.length > 0"
-            style="padding: 20px; margin: -20px"
-          >
+            style="padding: 20px; margin: -20px">
             <el-breadcrumb separator-class="el-icon-arrow-right">
               <el-breadcrumb-item
                 v-for="(item, index) in bran"
                 :key="index"
-                :to="{ path: item.path }"
-              >
-                {{ item.title }}</el-breadcrumb-item
-              >
+                :to="{ path: item.path }">
+                {{ item.title }}</el-breadcrumb-item>
             </el-breadcrumb>
           </div>
 

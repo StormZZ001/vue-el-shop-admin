@@ -41,17 +41,20 @@
                 <el-card class="box-card mb-3 position-relative text-center"
 						     style="cursor: pointer;"
 						     :body-style="{'padding':'0'}" shadow="hover">
-                  <img :src="item.url"
-                       class="w-100" style="height: 100px;" />
-							    <div class="w-100 text-white" style="background: rgba(0,0,0,0.5);margin-top: -25px;position: absolute;">
-							    	{{item.name}}
-							    </div>
-                  <div class="p-2 text-center">
-                    <el-button-group>
-                      <el-button size="mini" class="p-2" icon="el-icon-view" @click="previewImage(item)"></el-button>
-                      <el-button size="mini" class="p-2" icon="el-icon-edit" @click="imageEdit(item,index)"></el-button>
-                      <el-button size="mini" class="p-2" icon="el-icon-delete" @click="imageDel(index)"></el-button>
-                    </el-button-group>
+                  <div class="border" :class="{'border-danger' : item.ischeck}">
+                    <span class="badge badge-danger" v-if="item.ischeck" style="position:absolute;right:0">11</span>
+                    <img :src="item.url"
+                       class="w-100" style="height: 100px;" @click="choose(item)"/>
+							         <div class="w-100 text-white" style="background: rgba(0,0,0,0.5);margin-top: -25px;position: absolute;">
+							         	{{item.name}}
+							         </div>
+                       <div class="p-2 text-center">
+                         <el-button-group>
+                           <el-button size="mini" class="p-2" icon="el-icon-view" @click="previewImage(item)"></el-button>
+                           <el-button size="mini" class="p-2" icon="el-icon-edit" @click="imageEdit(item,index)"></el-button>
+                           <el-button size="mini" class="p-2" icon="el-icon-delete" @click="imageDel(index)"></el-button>
+                         </el-button-group>
+                       </div>
                   </div>
                 </el-card>
 
@@ -74,8 +77,7 @@
 				</el-form-item>
 				<el-form-item label="相册排序">
 					<el-input-number v-model="albumForm.order"
-					:min="0" size="medium"
-					></el-input-number>
+					:min="0" size="medium"></el-input-number>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -134,12 +136,7 @@
 					order:0
 				},
 				albums:[],
-        imageList:[
-          {
-						url:"https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg",
-						name:"图片"
-					}
-        ]
+        imageList:[]
 			}
 		},
 		created() {
@@ -159,7 +156,18 @@
 						order:0
 					})
 				}
+        for(var i = 0;i < 30;i ++){
+          this.imageList.push({
+            id:i,
+            url:"https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg",
+            name:'相册'+i,
+            ischeck:false
+          })
+        }
 			},
+      choose(item){
+        item.ischeck =!item.ischeck
+      },
       //删除相册
       imageDel(index){
         this.$confirm('是否删除该图片', '提示', {

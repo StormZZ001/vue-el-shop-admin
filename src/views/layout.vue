@@ -159,6 +159,12 @@ export default {
       this.bran = arr;
     },
     handleSelect(key, keyPath) {
+      if(key === '100-1'){
+        return console.log('修改资料')
+      }
+      if(key === '100-2'){
+        return console.log('退出登录')
+      }
       this.navBar.active = key;
       // 默认选中跳转到当前激活
       this.slideMenuActive = "0";

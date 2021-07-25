@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<el-container style="position: absolute;top: 55px;bottom: 0;left: 0;right: 0;">
 		  <el-header class="d-flex align-items-center border-bottom">
 			  <!-- 头部 -->
@@ -19,8 +18,25 @@
 			  <el-button type="warning" size="medium">上传图片</el-button>
 		  </el-header>
 		  <el-container>
-			<el-aside width="200px" style="position: absolute;top: 60px;left: 0;bottom: 60px;">
-				<!-- 侧边 -->
+			<el-aside width="200px" style="position: absolute;top: 60px;left: 0;bottom: 60px;" class="bg-white border-right">
+				<!-- 侧边 | 相册列表-->
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item list-group-item-action d-flex align-items-center"
+            :class="{'sum-active':albumIndex === index}"
+            @click.stop="albumChange(index)"
+            style="cursor:pointer" v-for="(item,index) in albums" :key="index">
+              {{item.name}}
+              <el-dropdown class="ml-auto">
+               <span class="el-dropdown-link">
+                 {{item.num}}<i class="el-icon-arrow-down el-icon--right"></i>
+               </span>
+               <el-dropdown-menu slot="dropdown">
+                 <el-dropdown-item>修改</el-dropdown-item>
+                 <el-dropdown-item>删除</el-dropdown-item>
+               </el-dropdown-menu>
+              </el-dropdown>
+           </li>
+        </ul>
 			</el-aside>
 			<el-container>
 			  <el-main style="position: absolute;top: 60px;left:200px;bottom: 60px;right: 0;">
@@ -37,8 +53,42 @@
 </template>
 
 <script>
+export default {
+  data(){
+    return {
+				searchForm:{
+					order:"",
+					keyword:""
+				},
+				albumIndex:0,
+				albums:[]
+			}
+  },
+  created(){
+    this.__init()
+  },
+  methods:{
+    __init(){
+      for(var i = 0;i <= 20;i ++){
+        this.albums.push({
+          name:'相册'+i,
+          num:Math.floor(Math.random() * 100),
+          order:0
+        })
+      }
+    },
+    //切换相册
+    albumChange(index){
+      this.albumIndex = index
+    }
+  }
+}
 </script>
 
 <style>
-
+.sum-active{
+	color: #67C23A!important;
+    background-color: #f0f9eb!important;
+    border-color: #c2e7b0!important;
+}
 </style>

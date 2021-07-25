@@ -42,7 +42,7 @@
 						     style="cursor: pointer;"
 						     :body-style="{'padding':'0'}" shadow="hover">
                   <div class="border" :class="{'border-danger' : item.ischeck}">
-                    <span class="badge badge-danger" v-if="item.ischeck" style="position:absolute;right:0">11</span>
+                    <span class="badge badge-danger" v-if="item.ischeck" style="position:absolute;right:0">{{item.checkOrder}}</span>
                     <img :src="item.url"
                        class="w-100" style="height: 100px;" @click="choose(item)"/>
 							         <div class="w-100 text-white" style="background: rgba(0,0,0,0.5);margin-top: -25px;position: absolute;">
@@ -136,7 +136,9 @@
 					order:0
 				},
 				albums:[],
-        imageList:[]
+        imageList:[],
+        //选中的数组
+        chooseList:[]
 			}
 		},
 		created() {
@@ -161,12 +163,23 @@
             id:i,
             url:"https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg",
             name:'相册'+i,
-            ischeck:false
+            ischeck:false,
+            checkOrder:0
           })
         }
 			},
       choose(item){
-        item.ischeck =!item.ischeck
+        //选中
+        if(!item.ischeck){
+          //加入选中
+          this.chooseList.push({id:item.id,url:item.url})
+          //计算序号
+          item.checkOrder = this.chooseList.length
+          //修改状态
+          item.ischeck = true
+          return
+        }
+        //取消选中
       },
       //删除相册
       imageDel(index){

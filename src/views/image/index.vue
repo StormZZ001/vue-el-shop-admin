@@ -31,11 +31,33 @@
 					@edit="openAlbumModel"
 					@del="albumDel"></album-item>
 				</ul>
-
 			</el-aside>
 			<el-container>
 			  <el-main style="position: absolute;top: 60px;left:200px;bottom: 60px;right: 0;">
 				  <!-- 主内容 -->
+          <el-row :gutter="10">
+            <el-col :span="24" :lg="3" :md="6" :sm="8"
+            v-for="i in 10" :key="i">
+                <el-card class="box-card mb-3 position-relative text-center"
+						     style="cursor: pointer;"
+						     :body-style="{'padding':'0'}" shadow="hover">
+                  <img src="https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg"
+                       class="w-100" style="height: 100px;" />
+							    <div class="w-100 text-white" style="background: rgba(0,0,0,0.5);margin-top: -25px;position: absolute;">
+							    	123
+							    </div>
+                  <div class="p-2 text-center">
+                    <el-button-group>
+                      <el-button size="mini" class="p-2" icon="el-icon-view"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-edit"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-delete"></el-button>
+                    </el-button-group>
+                  </div>
+                </el-card>
+
+            </el-col>
+          </el-row>
+
 			  </el-main>
 			</el-container>
 		  </el-container>

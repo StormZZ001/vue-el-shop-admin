@@ -37,20 +37,20 @@
 				  <!-- 主内容 -->
           <el-row :gutter="10">
             <el-col :span="24" :lg="3" :md="6" :sm="8"
-            v-for="i in 10" :key="i">
+            v-for="(item,index) in imageList" :key="index">
                 <el-card class="box-card mb-3 position-relative text-center"
 						     style="cursor: pointer;"
 						     :body-style="{'padding':'0'}" shadow="hover">
-                  <img src="https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg"
+                  <img :src="item.url"
                        class="w-100" style="height: 100px;" />
 							    <div class="w-100 text-white" style="background: rgba(0,0,0,0.5);margin-top: -25px;position: absolute;">
-							    	123
+							    	{{item.name}}
 							    </div>
                   <div class="p-2 text-center">
                     <el-button-group>
-                      <el-button size="mini" class="p-2" icon="el-icon-view" @click="previewImage"></el-button>
-                      <el-button size="mini" class="p-2" icon="el-icon-edit"></el-button>
-                      <el-button size="mini" class="p-2" icon="el-icon-delete"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-view" @click="previewImage(item)"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-edit" @click="imageEdit(item,index)"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-delete" @click="imageDel(index)"></el-button>
                     </el-button-group>
                   </div>
                 </el-card>
@@ -65,10 +65,8 @@
 			  <!-- 底部 -->
 		  </el-footer>
 		</el-container>
-
-
 		<!-- 修改|创建相册 -->
-		<el-dialog title="修改相册" :visible.sync="albumModel">
+		<el-dialog :title="albumModelTitle" :visible.sync="albumModel">
 			<el-form ref="form" :model="albumForm" label-width="80px">
 				<el-form-item label="相册名称">
 					<el-input v-model="albumForm.name" size="medium"
@@ -106,7 +104,7 @@
       :visible.sync="previewModel"
       width="60vw" top="5vh">
       <div style="margin: -60px -20px -30px -20px;">
-				<img src="https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg" class="w-100" />
+				<img :src="previewUrl" class="w-100" />
 			</div>
     </el-dialog>
 
@@ -130,16 +128,28 @@
         uploadModel:false,
         previewModel:false,
 				albumEditIndex:-1,
+        previewUrl:"",
 				albumForm:{
 					name:"",
 					order:0
 				},
-				albums:[]
+				albums:[],
+        imageList:[
+          {
+						url:"https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg",
+						name:"图片"
+					}
+        ]
 			}
 		},
 		created() {
 			this.__init()
 		},
+    computed:{
+      albumModelTitle(){
+        return this.albumEditIndex > -1 ? '修改相册' :'创建相册'
+      }
+    },
 		methods: {
 			__init() {
 				for (var i = 0; i < 20; i++) {
@@ -150,6 +160,40 @@
 					})
 				}
 			},
+      //删除相册
+      imageDel(index){
+        this.$confirm('是否删除该图片', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.imageList.splice(index,1)
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+        })
+      },
+      //修改图片名称
+      imageEdit(item,index){
+        this.$prompt('请输入新名称', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputValue:item.name,
+          inputValidator(val){
+            if(val === ''){
+              return '图片名称不能为空'
+            }
+          }
+        }).then(({ value }) => {
+          item.name = value
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          });
+        })
+
+      },
 			// 切换相册
 			albumChange(index){
 				this.albumIndex = index
@@ -175,9 +219,10 @@
 				this.albumModel = true
 			},
       //预览图片
-    previewImage(){
-      this.previewModel = true
-    },
+      previewImage(item){
+        this.previewUrl = item.url
+        this.previewModel = true
+      },
 			// 点击确定修改/创建相册
 			confirmAlbumModel(){
 				// 判断是否为修改

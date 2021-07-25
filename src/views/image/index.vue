@@ -48,7 +48,7 @@
 							    </div>
                   <div class="p-2 text-center">
                     <el-button-group>
-                      <el-button size="mini" class="p-2" icon="el-icon-view"></el-button>
+                      <el-button size="mini" class="p-2" icon="el-icon-view" @click="previewImage"></el-button>
                       <el-button size="mini" class="p-2" icon="el-icon-edit"></el-button>
                       <el-button size="mini" class="p-2" icon="el-icon-delete"></el-button>
                     </el-button-group>
@@ -101,6 +101,14 @@
 				</el-upload>
       </div>
     </el-dialog>
+    <!-- 预览图片 -->
+    <el-dialog
+      :visible.sync="previewModel"
+      width="60vw" top="5vh">
+      <div style="margin: -60px -20px -30px -20px;">
+				<img src="https://tangzhe123-com.oss-cn-shenzhen.aliyuncs.com/Appstatic/qsbk/demo/datapic/40.jpg" class="w-100" />
+			</div>
+    </el-dialog>
 
 	</div>
 </template>
@@ -120,6 +128,7 @@
 				albumIndex:0,
 				albumModel:false,
         uploadModel:false,
+        previewModel:false,
 				albumEditIndex:-1,
 				albumForm:{
 					name:"",
@@ -165,6 +174,10 @@
 				this.albumEditIndex = -1
 				this.albumModel = true
 			},
+      //预览图片
+    previewImage(){
+      this.previewModel = true
+    },
 			// 点击确定修改/创建相册
 			confirmAlbumModel(){
 				// 判断是否为修改
@@ -199,7 +212,7 @@
 					});
 				})
 			}
-		},
+		}
 	}
 </script>
 

@@ -31,8 +31,7 @@
           @click="unChoose"
           v-if="chooseList.length"
         >
-          取消选择</el-button
-        >
+          取消选择</el-button>
         <el-button
           type="danger"
           size="mini"

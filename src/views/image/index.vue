@@ -25,6 +25,14 @@
           ></el-input>
           <el-button type="success" size="mini">搜索</el-button>
         </div>
+		<el-button
+          type="warning"
+          size="mini"
+          @click="unChoose"
+          v-if="chooseList.length"
+        >
+          取消选择</el-button
+        >
         <el-button
           type="danger"
           size="mini"
@@ -266,6 +274,20 @@ export default {
         });
       }
     },
+	//取消选择
+	unChoose(){
+		this.imageList.forEach(img=>{
+			//找到所有选中的图片
+			let i = this.chooseList.findIndex(item =>item.id === img.id)
+			if(i > -1){
+				//取消选中样式,选中排序归0
+				img.ischeck = false
+				img.checkOrder = 0
+				//从chooseList中删除
+				this.chooseList.splice(i,1)
+			}
+		})
+	},
 	//批量删除
 	imageDelAll(){
 		//从imageList筛选出所有未选择的

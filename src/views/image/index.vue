@@ -180,6 +180,28 @@
           return
         }
         //取消选中
+        //找到在chooseList中的索引
+        let i = this.chooseList.findIndex(v=> v.id === item.id)
+        if(i === -1) return
+        //重新计算序号
+        let length = this.chooseList.length
+        //取消选中中间部分
+        if(i + 1 < length){
+          for(let j = i;j < length;j ++){
+            //重新计算imageList选中序号
+            let no = this.imageList.findIndex(v => v.id === this.chooseList[j].id)
+
+            if(no > -1){
+              this.imageList[no].checkOrder --
+            }
+          }
+        }
+        //删除
+        this.chooseList.splice(i,1)
+        //修改状态
+        item.ischeck = false
+        //重制序号
+        item.checkOrder = 0
       },
       //删除相册
       imageDel(index){

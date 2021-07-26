@@ -28,7 +28,7 @@
         <el-button
           type="danger"
           size="mini"
-          @click="imageDelAll"
+          @click="imageDel({all:true})"
           v-if="chooseList.length"
         >
           批量删除</el-button
@@ -130,7 +130,7 @@
                           size="mini"
                           class="p-2"
                           icon="el-icon-delete"
-                          @click="imageDel(index)"
+                          @click="imageDel({index})"
                         ></el-button>
                       </el-button-group>
                     </div>
@@ -296,13 +296,36 @@ export default {
       item.checkOrder = 0;
     },
     //删除相册
-    imageDel(index) {
-      this.$confirm("是否删除该图片", "提示", {
+    // imageDel(index) {
+    //   this.$confirm("是否删除该图片", "提示", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning",
+    //   }).then(() => {
+    //     this.imageList.splice(index, 1);
+    //     this.$message({
+    //       message: "删除成功",
+    //       type: "success",
+    //     });
+    //   });
+    // },
+	imageDel(obj) {
+      this.$confirm(obj.all?"是否删除选中图片":"是否删除该图片", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        this.imageList.splice(index, 1);
+		if(obj.all){
+			//删除选中图片
+			let list = this.imageList.filter(img => {
+				return !this.chooseList.some(c => c.id === img.id)
+			})
+			this.imageList = list
+			this.chooseList = []
+		}else{
+		  this.imageList.splice(index, 1);
+		}
+
         this.$message({
           message: "删除成功",
           type: "success",

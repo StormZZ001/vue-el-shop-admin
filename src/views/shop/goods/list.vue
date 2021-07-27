@@ -26,10 +26,29 @@
 						type="text" @click="superSearch = false"
 						>收起</el-button>
 					</div>
-					表单
+					<!-- 表单 -->
+          <el-form inline ref="form" :model="form" label-width="80px">
+            <el-form-item label="商品名称" class="mb-0">
+               <el-input v-model="form.name" placeholder="商品名称" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="商品编码" class="mb-0">
+               <el-input v-model="form.code" placeholder="商品编码" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="商品类型" class="mb-0">
+               <el-select v-model="form.type" size="mini" placeholder="请输入商品类型">
+                 <el-option label="区域一" value="shanghai"></el-option>
+                 <el-option label="区域二" value="beijing"></el-option>
+               </el-select>
+            </el-form-item>
+            <el-form-item label="商品分类" class="mb-0">
+               <el-input v-model="form.category" placeholder="请输入商品名称" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item class="mb-0">
+               <el-button type="info" size="mini" @click="searchEvent">搜索</el-button>
+               <el-button size="mini" @click="clearSearch">清空搜索条件</el-button>
+            </el-form-item>
+          </el-form>
 				</el-card>
-
-
 			</el-tab-pane>
 		</el-tabs>
 
@@ -50,7 +69,10 @@
 				],
 				superSearch:false,
 				form:{
-					keyword:"",
+					name:"",
+          code:"",
+          type:"",
+          category:""
 				}
 			}
 		},
@@ -58,7 +80,20 @@
 			// 加载数据
 			handleClick(tab,event) {
 				console.log(tab.index);
-			}
+			},
+      //搜索事件
+      searchEvent(){
+        console.log('搜索事件')
+      },
+      //清空筛选条件
+      clearSearch(){
+        this.form = {
+          name:"",
+          code:"",
+          type:"",
+          category:""
+        }
+      }
 		},
 	}
 </script>

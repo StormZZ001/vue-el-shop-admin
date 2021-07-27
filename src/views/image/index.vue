@@ -1,8 +1,7 @@
 <template>
   <div>
     <el-container
-      style="position: absolute; top: 55px; bottom: 0; left: 0; right: 0"
-    >
+      style="position: absolute; top: 55px; bottom: 0; left: 0; right: 0">
       <el-header class="d-flex align-items-center border-bottom">
         <!-- 头部 -->
         <div class="d-flex mr-auto">

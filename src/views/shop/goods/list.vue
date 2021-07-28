@@ -9,15 +9,12 @@
         >
           <!-- 左边 -->
           <template #left>
-            <el-button type="success"
-						size="mini">发布商品</el-button>
-						<el-button type="warning"
-						size="mini">恢复商品</el-button>
-						<el-button type="danger"
-						size="mini">批量删除</el-button>
-						<el-button size="mini">上架</el-button>
-						<el-button size="mini">下架</el-button>
-						<el-button size="mini">推荐</el-button>
+            <el-button type="success" size="mini">发布商品</el-button>
+            <el-button type="warning" size="mini">恢复商品</el-button>
+            <el-button type="danger" size="mini">批量删除</el-button>
+            <el-button size="mini">上架</el-button>
+            <el-button size="mini">下架</el-button>
+            <el-button size="mini">推荐</el-button>
           </template>
           <!--高级搜索表单 -->
           <template #form>
@@ -81,18 +78,42 @@
         <el-table
           ref="multipleTable"
           :data="tableData"
-          tooltip-effect="dark"
           style="width: 100%"
           @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column label="日期" width="120">
-            <template slot-scope="scope">{{ scope.row.date }}</template>
+          border class="mt-3">
+          <el-table-column type="selection" width="45" align="center"></el-table-column>
+          <el-table-column label="商品" width="380">
+            <template slot-scope="scope">
+              <div class="media">
+               <img class="mr-3" style="width: 60px;height: 60px;" :src="scope.row.cover">
+               <div class="media-body">
+                 <p class="mt-0">{{scope.row.title}}</p>
+                 <p class="mb-0">分类:{{scope.row.category}}</p>
+                 <p class="mb-0">时间:{{scope.row.create_time}}</p>
+               </div>
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
+          <el-table-column prop="type" label="商品类型" align="center">
           </el-table-column>
-          <el-table-column prop="address" label="地址" show-overflow-tooltip>
+          <el-table-column prop="sale_count" label="实际销量" align="center">
           </el-table-column>
+          <el-table-column prop="order" label="商品排序" align="center">
+          </el-table-column>
+          <el-table-column prop="status" label="商品状态" align="center">
+            <template>
+               <el-button type="success" size="mini" plain>上架</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="stock" label="总库存">
+          </el-table-column>
+          <el-table-column align="center" prop="pprice" label="价格(元)">
+          </el-table-column>
+          <el-table-column
+					prop="id"
+					align="center"
+					label="操作">
+				  </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -121,39 +142,19 @@ export default {
       },
       tableData: [
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          id: 1,
+          title: "荣耀 V10全网通 标配版 4GB+64GB 魅丽红",
+          cover: "http://static.yoshop.xany6.com/2018071718294208f086786.jpg",
+          create_time: "2019-07-17 18:34:14",
+          category: "手机",
+          type: "普通商品",
+          sale_count: 20,
+          order: 100,
+          status: 1,
+          stock: 200,
+          pprice: 1000,
+          ischeck: 1,
+          // 0未审核，1通过，2不通过
         },
       ],
       multipleSelection: [],
@@ -168,7 +169,12 @@ export default {
       console.log(tab.index);
     },
     //搜索事件
-    searchEvent() {
+    searchEvent(e = false) {
+      // 简单搜索
+      if (typeof e === "string") {
+        return console.log("简单搜索", e);
+      }
+      // 高级搜索
       console.log("搜索事件");
     },
     //清空筛选条件
@@ -179,6 +185,7 @@ export default {
         type: "",
         category: "",
       };
+      this.$refs.buttonSearch[this.tabIndex].closeSuperSearch()
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

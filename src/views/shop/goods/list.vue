@@ -115,9 +115,25 @@
 					prop="status"
 					align="center"
 					label="商品状态">
-					<template>
-						<el-button type="success" size="mini"
-						plain>上架</el-button>
+					<template slot-scope="scope">
+						<el-button
+						type="success" size="mini"
+						@click="scope.row.ischeck = 1"
+						plain>审核通过
+						</el-button>
+
+						<el-button class="ml-0 mt-2"
+						type="danger" size="mini"
+						@click="scope.row.ischeck = 2"
+						plain>审核通过
+						</el-button>
+
+						<!-- <el-button
+						:type="scope.row.status ? 'success' : 'danger'"
+						size="mini"
+						@click="changeStatus(scope.row)"
+						plain>{{scope.row.status ? '上架' : '下架'}}
+						</el-button> -->
 					</template>
 				  </el-table-column>
 				  <el-table-column
@@ -146,6 +162,18 @@
 					</template>
 				  </el-table-column>
 				</el-table>
+				<div style="height: 60px;"></div>
+				<el-footer class="border-top d-flex align-items-center px-0 position-fixed bg-white" style="bottom: 0;left: 200px;right: 0;z-index: 100;">
+				  <div style="flex: 1;" class="px-2">
+					  <el-pagination
+					  :current-page="tableData[tabI].currentPage"
+					  :page-sizes="[100, 200, 300, 400]"
+					  :page-size="100"
+					  layout="total, sizes, prev, pager, next, jumper"
+					  :total="400">
+					</el-pagination>
+				  </div>
+				</el-footer>
 
 			</el-tab-pane>
 		</el-tabs>
@@ -208,6 +236,10 @@
 						})
 					}
 				}
+			},
+			// 上下架
+			changeStatus(item){
+				item.status = item.status === 1 ?  0 : 1
 			},
 			// 删除当前商品
 			deleteItem(index){
